@@ -164,3 +164,195 @@ body {
   color: red;
   font-weight: bold;
 }
+
+/* === Forms & Form Boxes === */
+.form-box {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-sizing: border-box;
+}
+
+.form-box input,
+.form-box select,
+.form-box button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.form-box button {
+  background: #0056d2;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.form-box button:hover {
+  background: #003e9e;
+}
+
+/* === Tables === */
+.history-box table,
+.current-stock-table table {
+  width: 100%;
+  border-collapse: collapse;
+  display: block; /* scrollable for mobile */
+  overflow-x: auto;
+}
+
+.history-box th,
+.history-box td,
+.current-stock-table th,
+.current-stock-table td {
+  padding: 8px;
+  text-align: left;
+  min-width: 100px; /* ensures scroll if needed */
+  border-bottom: 1px solid #eee;
+}
+
+/* === Summary Cards === */
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.card {
+  flex: 1 1 200px; /* grow, shrink, minimum width */
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.card .count {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #0056d2;
+}
+
+/* === Responsive Media Queries === */
+@media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+  }
+
+  .sidebar ul {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .sidebar li {
+    flex: 1;
+    text-align: center;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+
+  .form-box,
+  .history-box,
+  .current-stock-table {
+    padding: 15px;
+  }
+
+  .summary {
+    flex-direction: column;
+  }
+
+  .summary .card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-box input,
+  .form-box select,
+  .form-box button {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .card .count {
+    font-size: 24px;
+  }
+
+  table {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Sidebar hidden by default */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px; /* hidden */
+    width: 240px;
+    height: 100%;
+    background: #0056d2;
+    color: white;
+    flex-direction: column; /* keep links vertical */
+    padding: 20px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  /* Sidebar visible when open */
+  .sidebar.open {
+    left: 0;
+  }
+
+  /* Keep list items stacked vertically */
+  .sidebar ul {
+    display: flex;
+    flex-direction: column; /* vertical */
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+  }
+
+  .sidebar li {
+    text-align: left; /* full width for each item */
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .mobile-hamburger {
+    display: block;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 28px;
+    z-index: 1100;
+    background: #0056d2;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .main-content {
+    padding: 15px;
+    margin-left: 0; /* no permanent sidebar on mobile */
+  }
+}
