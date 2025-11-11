@@ -37,6 +37,7 @@ const DistributionHistory = () => {
         boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
         marginTop: "20px",
       }}
+      className="history-box"
     >
       <h3 style={{ marginBottom: "10px", fontSize: "16px", fontWeight: "600" }}>
         አሁን ያለው (Current Stock)

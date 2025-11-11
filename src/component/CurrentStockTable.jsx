@@ -27,6 +27,7 @@ const CurrentStockTable = () => {
 
   return (
     <div
+      className="current-stock-table"
       style={{
         backgroundColor: "#fff",
         borderRadius: "12px",
