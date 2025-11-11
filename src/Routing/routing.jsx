@@ -1,47 +1,23 @@
-// App.jsx
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import WelcomeBanner from '../../src/pages/disributors/dis';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginCard from "../pages/loginpage";
+import StockKeeperDashboard from "../pages/Stockkeeper/stockkeep";
 
-// Simple placeholder pages
-const OwnerPage = () => (
-  <div className="p-6">
-    <WelcomeBanner name="Marsilas Daniel" role="owner" />
-    <p className="mt-4 text-gray-700">This is the Owner dashboard.</p>
-  </div>
-);
+// Placeholder components for other roles
+const OwnerDashboard = () => <h2 style={{ textAlign: "center" }}>🏠 Owner Dashboard</h2>;
+const SalesmanDashboard = () => <h2 style={{ textAlign: "center" }}>🚚 Salesman Dashboard</h2>;
 
-const StockkeeperPage = () => (
-  <div className="p-6">
-    <WelcomeBanner name="Samuel" role="stockkeeper" />
-    <p className="mt-4 text-gray-700">This is the Stockkeeper page for managing inventory.</p>
-  </div>
-);
-
-const DistributorPage = () => (
-  <div className="p-6">
-    <WelcomeBanner name="Kidist" role="distributor" />
-    <p className="mt-4 text-gray-700">This is the Distributor page for managing deliveries.</p>
-  </div>
-);
-
-// Main App with routes
-const App = () => {
+function Routering() {
   return (
     <Router>
-      <nav className="bg-blue-600 text-white p-4 flex justify-around">
-        <Link to="/" className="hover:underline">Owner</Link>
-        <Link to="/stockkeeper" className="hover:underline">Stockkeeper</Link>
-        <Link to="/distributor" className="hover:underline">Distributor</Link>
-      </nav>
-
       <Routes>
-        <Route path="/" element={<OwnerPage />} />
-        <Route path="/stockkeeper" element={<StockkeeperPage />} />
-        <Route path="/distributor" element={<DistributorPage />} />
+        <Route path="/" element={<LoginCard />} />
+        <Route path="/owner" element={<OwnerDashboard />} />
+        <Route path="/stockkeeper" element={<StockKeeperDashboard />} />
+        <Route path="/salesman" element={<SalesmanDashboard />} />
       </Routes>
     </Router>
   );
-};
+}
 
-export default App;
+export default Routering;
