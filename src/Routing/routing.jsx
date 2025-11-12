@@ -1,23 +1,20 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginCard from "../pages/loginpage";
-import StockKeeperDashboard from "../pages/Stockkeeper/stockkeep";
+// routing.jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from '../pages/Login/loginpage';
+import StockkeeperPage from '../pages/Stockkeeper/stockkeep';
+import Sales from '../pages/disributors/Salesperson'; 
 
-// Placeholder components for other roles
-const OwnerDashboard = () => <h2 style={{ textAlign: "center" }}>🏠 Owner Dashboard</h2>;
-const SalesmanDashboard = () => <h2 style={{ textAlign: "center" }}>🚚 Salesman Dashboard</h2>;
-
-function Routering() {
+function Routing() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginCard />} />
-        <Route path="/owner" element={<OwnerDashboard />} />
-        <Route path="/stockkeeper" element={<StockKeeperDashboard />} />
-        <Route path="/salesman" element={<SalesmanDashboard />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/stockkeeper" element={<StockkeeperPage />} /> 
+         <Route path="/sales" element={<Sales />} /> 
       </Routes>
     </Router>
   );
 }
 
-export default Routering;
+export default Routing;
