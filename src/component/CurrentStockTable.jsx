@@ -71,7 +71,6 @@ const CurrentStockTable = () => {
               <td style={{ padding: "8px" }}>
                 {item.quantity * item.unitPrice} Br
               </td>
-              <td style={{ padding: "8px" }}>{item.date}</td>
             </tr>
           ))}
         </tbody>

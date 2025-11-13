@@ -12,44 +12,87 @@ function SellingHistory() {
     { id: 4, type: "1/4L", quantity: 200, unitPrice: 5, date: "2025-11-09" },
   ];
 
-  return (
-    <div className="selling-history-container">
-      <h2>Selling History</h2>
+  const totalQuantity = salesData.reduce((sum, item) => sum + item.quantity, 0);
+  const totalRevenue = salesData.reduce(
+    (sum, item) => sum + item.quantity * item.unitPrice,
+    0
+  );
 
-      {/* Filter Bar */}
-      <div className="filter-bar">
-        <label>Duration:</label>
-        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-          <option value="today">Today</option>
-          <option value="yesterday">Yesterday</option>
-          <option value="weekly">This Week</option>
-          <option value="monthly">This Month</option>
-        </select>
+  return (
+    <div className="selling-history-page-container">
+      {/* Summary Cards */}
+      <div className="history-summary">
+        <div className="summary-card">
+          <div className="summary-header">
+            <span className="summary-icon">📊</span>
+            <span className="summary-label">Total Sales (ጠቅላላ ሽያጭ)</span>
+          </div>
+          <div className="summary-value">{totalQuantity}</div>
+          <div className="summary-footer">Bottles sold (የተሸጡ ቦታሎች)</div>
+        </div>
+        <div className="summary-card">
+          <div className="summary-header">
+            <span className="summary-icon">💰</span>
+            <span className="summary-label">Total Revenue (ጠቅላላ ገቢ)</span>
+          </div>
+          <div className="summary-value">{totalRevenue.toLocaleString()}</div>
+          <div className="summary-footer">Birr (ብር)</div>
+        </div>
       </div>
 
-      {/* Sales Table */}
-      <table className="sales-table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Quantity</th>
-            <th>Unit Price (Birr)</th>
-            <th>Total (Birr)</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {salesData.map((row) => (
-            <tr key={row.id}>
-              <td>{row.type}</td>
-              <td>{row.quantity}</td>
-              <td>{row.unitPrice}</td>
-              <td>{row.quantity * row.unitPrice}</td>
-              <td>{row.date}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Records Card */}
+      <div className="records-card">
+        <div className="records-header">
+          <h2 className="records-title">Selling History (የሽያጭ ታሪክ)</h2>
+          <p className="records-subtitle">
+            Complete history of all your sales transactions (የሁሉም የሽያጭ ዝውውሮች ሙሉ ታሪክ)
+          </p>
+        </div>
+
+        {/* Filter Bar */}
+        <div className="filter-bar">
+          <label htmlFor="filter">Filter by (በመስፈርት ይመርጡ):</label>
+          <select
+            id="filter"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="filter-select"
+          >
+            <option value="today">Today (ዛሬ)</option>
+            <option value="yesterday">Yesterday (ትናንት)</option>
+            <option value="weekly">This Week (በዚህ ሳምንት)</option>
+            <option value="monthly">This Month (በዚህ ወር)</option>
+          </select>
+        </div>
+
+        {/* Sales Table */}
+        <div className="table-container">
+          <table className="sales-table">
+            <thead>
+              <tr>
+                <th>Type (ዓይነት)</th>
+                <th>Quantity (ብዛት)</th>
+                <th>Unit Price (የአንዱ ዋጋ) (ብር)</th>
+                <th>Total (ጠቅላላ) (ብር)</th>
+                <th>Date (ቀን)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {salesData.map((row) => (
+                <tr key={row.id}>
+                  <td>{row.type}</td>
+                  <td>{row.quantity}</td>
+                  <td>{row.unitPrice.toLocaleString()}</td>
+                  <td className="total-cell">
+                    {(row.quantity * row.unitPrice).toLocaleString()}
+                  </td>
+                  <td>{row.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

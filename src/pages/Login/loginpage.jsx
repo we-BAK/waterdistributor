@@ -1,27 +1,50 @@
 // Loginpage.jsx
-// Usage: place LoginCard.jsx and LoginCard.css in the same folder and import LoginCard into your app
-
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
 
 export default function LoginCard() {
-  const [user, setUser] = useState("");
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const demoUsers = [
-    { id: "", label: "Choose a user to login" },
-    { id: "agent", label: "Agent - Tsegaye" },
-    { id: "manager", label: "Manager - Selam" },
-    { id: "admin", label: "Admin - Bereket" }
-  ];
-
-  function handleLogin(e) {
+  const handleLogin = (e) => {
     e.preventDefault();
-    if (!user) {
-      alert("Please select a user to login (demo mode).");
+    setError("");
+
+    // Validate password
+    if (password !== "1234") {
+      setError("Invalid username or password");
       return;
     }
-    alert(`Logging in as: ${user}`);
-  }
+
+    // Extract role from username (format: role@example.com)
+    const emailPattern = /^(.+)@example\.com$/;
+    const match = username.trim().toLowerCase().match(emailPattern);
+
+    if (!match) {
+      setError("Invalid username format. Use: {role}@example.com");
+      return;
+    }
+
+    const role = match[1];
+
+    // Redirect based on role
+    switch (role) {
+      case "owner":
+        navigate("/owner");
+        break;
+      case "stockkeeper":
+        navigate("/stockkeeper");
+        break;
+      case "sales":
+        navigate("/sales");
+        break;
+      default:
+        setError("Invalid role. Valid roles: owner, stockkeeper, sales");
+    }
+  };
 
   return (
     <div className="page-bg">
@@ -45,27 +68,35 @@ export default function LoginCard() {
         <p className="subtitle">Management System</p>
 
         <form className="form" onSubmit={handleLogin} aria-labelledby="login-heading">
-          <label htmlFor="user" className="label">Select User</label>
-          <div className="select-wrap">
-            <select
-              id="user"
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
-              className="select"
-              aria-required="true"
-            >
-              {demoUsers.map((u) => (
-                <option key={u.id || "placeholder"} value={u.id} disabled={u.id === ""}>
-                  {u.label}
-                </option>
-              ))}
-            </select>
-            <span className="chev" aria-hidden>▾</span>
-          </div>
+          <label htmlFor="username" className="label">Username</label>
+          <input
+            id="username"
+            type="text"
+            className="input"
+            placeholder="role@example.com"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            autoComplete="username"
+          />
+
+          <label htmlFor="password" className="label">Password</label>
+          <input
+            id="password"
+            type="password"
+            className="input"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            autoComplete="current-password"
+          />
+
+          {error && <p className="error">{error}</p>}
 
           <button type="submit" className="btn">Login</button>
 
-          <p className="hint">Demo mode - Select any user to access their dashboard</p>
+          <p className="hint">Username format: role@example.com | Password: 1234</p>
         </form>
       </div>
     </div>

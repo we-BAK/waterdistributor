@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./ReceivedBottles.jsx";
+import "./RecivedBottles.css";
 
 function ReceivedBottles() {
   const [duration, setDuration] = useState("today");
@@ -19,47 +19,78 @@ function ReceivedBottles() {
     return item; // yearly - show all
   });
 
-  return (
-    <div className="received-container">
-      <h2>📦 Received Water Bottles</h2>
+  const totalQuantity = filteredData.reduce((sum, item) => sum + item.quantity, 0);
+  const totalAmount = filteredData.reduce((sum, item) => sum + item.total, 0);
 
-      <div className="filter-bar">
-        <label htmlFor="duration">Show by:</label>
-        <select
-          id="duration"
-          value={duration}
-          onChange={(e) => setDuration(e.target.value)}
-        >
-          <option value="today">Today</option>
-          <option value="weekly">Weekly</option>
-          <option value="yearly">Yearly</option>
-        </select>
+  return (
+    <div className="received-page-container">
+      {/* Summary Card */}
+      <div className="summary-card">
+        <div className="summary-header">
+          <span className="summary-icon">📦</span>
+          <span className="summary-label">Total Received (የተቀበሉት ጠቅላላ)</span>
+        </div>
+        <div className="summary-value">{totalQuantity}</div>
+        <div className="summary-footer">
+          Total Amount (ጠቅላላ መጠን): {totalAmount.toLocaleString()} ብር
+        </div>
       </div>
 
-      <table className="received-table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Quantity</th>
-            <th>Total (Birr)</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((row, index) => (
-            <tr key={index}>
-              <td>{row.type}</td>
-              <td>{row.quantity}</td>
-              <td>{row.total}</td>
-              <td>{row.date}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Records Card */}
+      <div className="records-card">
+        <div className="records-header">
+          <h2 className="records-title">Received Water Bottles (የተቀበሉ ውሃ ጠርሙሶች)</h2>
+          <p className="records-subtitle">View all bottles received from the store (ከመደብሩ የተቀበሉትን ጠርሙሶች ይመልከቱ)</p>
+        </div>
 
-      {filteredData.length === 0 && (
-        <p className="no-data">No records found for this duration.</p>
-      )}
+        <div className="filter-bar">
+          <label htmlFor="duration">Filter by (በመደብ ይመርጡ):</label>
+          <select
+            id="duration"
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            className="filter-select"
+          >
+            <option value="today">Today (ዛሬ)</option>
+            <option value="weekly">This Week (የዚህ ሳምንት)</option>
+            <option value="yearly">All Time (ሁሉም ጊዜ)</option>
+          </select>
+        </div>
+
+        <div className="table-container">
+          <table className="received-table">
+            <thead>
+              <tr>
+                <th>Type (አይነት)</th>
+                <th>Quantity (ብዛት)</th>
+                <th>Total (Birr) (ጠቅላላ ብር)</th>
+                <th>Date (ቀን)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.length > 0 ? (
+                filteredData.map((row, index) => (
+                  <tr key={index}>
+                    <td>{row.type}</td>
+                    <td>{row.quantity}</td>
+                    <td>{row.total.toLocaleString()}</td>
+                    <td>{row.date}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="no-data-cell">
+                    <div className="no-data">
+                      <span className="no-data-icon">📭</span>
+                      <p>No records found for this duration. (በዚህ ጊዜ ምንም መዝገብ አልተገኘም)</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

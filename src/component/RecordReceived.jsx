@@ -2,11 +2,13 @@ import React, { useState } from "react";
 
 const RecordReceived = () => {
   const [receivedQty, setReceivedQty] = useState("");
+  const [unitPrice, setUnitPrice] = useState(""); // new state for unit price
 
   return (
     <div className="form-box">
       <h3>📦 መቀበያ (Record Received)</h3>
-      <label>አይነት(በ ሌትር)</label>
+
+      <label>አይነት (በ ሌትር)</label>
       <select>
         <option>ሌትሩን ይምረጡ</option>
         <option>300ml</option>
@@ -14,21 +16,23 @@ const RecordReceived = () => {
         <option>1L</option>
         <option>2L</option>
       </select>
-      <label>ብዛት(በደርዘን)</label>
+
+      <label>ብዛት (በደርዘን)</label>
       <input
         type="number"
         placeholder="Enter quantity received"
         value={receivedQty}
         onChange={(e) => setReceivedQty(e.target.value)}
       />
+
       <label>የአንድ ዋጋ</label>
       <input
         type="number"
         placeholder="Enter unit price"
-        value={receivedQty}
-        onChange={(e) => setReceivedQty(e.target.value)}
+        value={unitPrice}
+        onChange={(e) => setUnitPrice(e.target.value)}
       />
-      
+
       <button>Submit</button>
     </div>
   );
