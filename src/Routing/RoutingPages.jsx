@@ -12,6 +12,15 @@ import StockReceivedHistory from '../component/StockReceivedHistory';
 import RecordReceived from '../component/RecordReceived';
 import CurrentStockTable from '../component/CurrentStockTable';
 
+//Owner page
+import OwnerDashboard from './../pages/Owner/OwnerDashboard';
+// import OwnerPageCards from './../component/OwnerPageCards';
+
+//Salesperson page
+import Salesperson from './../pages/disributors/Salesperson';
+// import SalesPersonCards from './../component/SalesPersonCards';
+
+
 
 const RoutingPages = () => {
     return (
@@ -20,26 +29,26 @@ const RoutingPages = () => {
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/login" element={<LoginPage />} />
 
-                {/* 
-                    <Route path="/Owner" element={<Layout><OwnerDashboard /></Layout>}>
-                        <Route index element={<OwnerPageCards />} />
+                 
+                    <Route path="/Owner" element={<Layout />}>
+                        <Route index element={<OwnerDashboard />} />
+                        {/* <Route path="" element={} />
                         <Route path="" element={} />
                         <Route path="" element={} />
-                        <Route path="" element={} />
-                        <Route path="" element={} />
-                        <Route path="profile" element={<UserProfile />} />
+                        <Route path="" element={} /> */}
+                        {/* <Route path="profile" element={<UserProfile />} /> */}
                     </Route>
                 
 
                 
-                    <Route path="/Sales" element={<Layout><Salesperson /></Layout>}>
-                        <Route index element={<SalesPersonCards />} />
+                    <Route path="/Sales" element={<Layout />}>
+                        <Route index element={<Salesperson />} />
+                        {/* <Route path="" element={} />
                         <Route path="" element={} />
                         <Route path="" element={} />
-                        <Route path="" element={} />
-                        <Route path="" element={} />
-                        <Route path="profile" element={<UserProfile />} />
-                    </Route> */}
+                        <Route path="" element={} /> */}
+                        {/* <Route path="profile" element={<UserProfile />} /> */}
+                    </Route> 
                 
 
 
