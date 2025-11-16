@@ -1,42 +1,39 @@
-// Loginpage.jsx
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./login.css";
+import { useState } from 'react';
+import { Droplets, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../component/Button';
+import Input from '../../component/Input';
 
-export default function LoginCard() {
-  const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
-    // Validate password
     if (password !== "1234") {
-      setError("Invalid username or password");
+      setError("Invalid email or password");
       return;
     }
 
-    // Extract role from username (format: role@example.com)
     const emailPattern = /^(.+)@example\.com$/;
-    const match = username.trim().toLowerCase().match(emailPattern);
+    const match = email.trim().toLowerCase().match(emailPattern);
 
     if (!match) {
-      setError("Invalid username format. Use: {role}@example.com");
+      setError("Invalid email format. Use: role@example.com");
       return;
     }
 
     const role = match[1];
-
-    // Redirect based on role
     switch (role) {
       case "owner":
         navigate("/owner");
         break;
       case "stockkeeper":
-        navigate("/stockkeeper");
+        navigate("/StockKeeper");
         break;
       case "sales":
         navigate("/sales");
@@ -47,57 +44,80 @@ export default function LoginCard() {
   };
 
   return (
-    <div className="page-bg">
-      <div className="card">
-        <div className="logo-wrap" aria-hidden>
-          {/* Simple water droplet SVG icon */}
-          <svg className="logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Water logo">
-            <defs>
-              <linearGradient id="g" x1="0" x2="1">
-                <stop offset="0" stopColor="#25a9ff" />
-                <stop offset="1" stopColor="#2db4ff" />
-              </linearGradient>
-            </defs>
-            <rect width="64" height="64" rx="12" fill="url(#g)" />
-            <path d="M32 16c-4.5 5-9 9.6-9 15 0 9.9 8.1 18 18 18s18-8.1 18-18c0-5.4-4.5-10-9-15C41 10 33 10 32 16z" fill="#fff" opacity="0.95" transform="translate(0,0)" />
-            <path d="M36 22c-1.7 1.9-3.4 3.6-4.6 5.6C30.9 29.3 30 31 30 34c0 3 2 6 6 6s6-3 6-6c0-2.6-1.9-4.6-3.9-7-1-1.2-2.1-2.6-3.1-4z" fill="#2da7ff" opacity="0.9" />
-          </svg>
+    <div className="min-h-screen bg-linear-to-br from-blue-500 via-cyan-500 to-blue-600 flex items-center justify-center px-4 py-12 relative overflow-hidden">
+
+      {/* Background Decorations */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl opacity-10 animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-300 rounded-full blur-3xl opacity-10 animate-pulse delay-1000"></div>
+
+      {/* Back Button */}
+      <button
+        onClick={() => navigate("/")}
+        className="absolute top-8 left-8 flex items-center space-x-2 text-white hover:bg-white/20 px-4 py-2 rounded-lg transition-all duration-300 backdrop-blur-sm"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        <span>Back</span>
+      </button>
+
+      {/* Login Card */}
+      <div className="w-full max-w-md relative animate-fade-in-up">
+        <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 sm:p-12 border border-white/20">
+
+          {/* Logo */}
+          <div className="flex justify-center mb-8">
+            <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg transform transition-transform duration-300 hover:rotate-12">
+              <Droplets className="w-12 h-12 text-blue-500" />
+            </div>
+          </div>
+
+          {/* Heading */}
+          <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-3">
+            Welcome Back
+          </h2>
+          <p className="text-blue-100 text-center mb-8">
+            Sign in to your Fiker Water account
+          </p>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-white font-medium text-sm">Email</label>
+              <Input
+                type="email"
+                placeholder="role@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="bg-white/90"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-white font-medium text-sm">Password</label>
+              <Input
+                type="password"
+                placeholder="1234"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="bg-white/90"
+              />
+            </div>
+
+            {error && (
+              <p className="text-red-300 text-sm text-center">{error}</p>
+            )}
+
+            <Button type="submit" className="w-full">
+              Sign In
+            </Button>
+
+            <p className="mt-4 text-blue-100 text-center text-sm">
+              Example login: owner@example.com | Password: 1234
+            </p>
+          </form>
+
         </div>
-
-        <h1 className="title">Water Distribution</h1>
-        <p className="subtitle">Management System</p>
-
-        <form className="form" onSubmit={handleLogin} aria-labelledby="login-heading">
-          <label htmlFor="username" className="label">Username</label>
-          <input
-            id="username"
-            type="text"
-            className="input"
-            placeholder="role@example.com"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            autoComplete="username"
-          />
-
-          <label htmlFor="password" className="label">Password</label>
-          <input
-            id="password"
-            type="password"
-            className="input"
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
-          />
-
-          {error && <p className="error">{error}</p>}
-
-          <button type="submit" className="btn">Login</button>
-
-          <p className="hint">Username format: role@example.com | Password: 1234</p>
-        </form>
       </div>
     </div>
   );

@@ -1,11 +1,11 @@
 
 import React from 'react'
-import Routering from './Routing/routing'
+import RoutingPages from './Routing/RoutingPages'
 
 function App() {
   return (
     <div>
-      <Routering/>
+      <RoutingPages/>
     </div>
   )
 }
