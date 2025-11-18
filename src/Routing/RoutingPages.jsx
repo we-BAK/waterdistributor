@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Layout from '../pages/PageLayout/Layout';
-import LoginPage from '../pages/Login/LoginPage';
+import LoginPage from '../pages/Login/loginpage';
 import LandingPage from '../pages/LandingPage/LandingPage';
 
 //Stockkeeper component
@@ -13,7 +13,7 @@ import RecordReceived from '../component/RecordReceived';
 import CurrentStockTable from '../component/CurrentStockTable';
 
 //Owner page
-import OwnerDashboard from './../pages/Owner/OwnerDashboard';
+import OwnerDashboard from '../pages/owner/OwnerDashboard';
 // import OwnerPageCards from './../component/OwnerPageCards';
 
 //Salesperson page

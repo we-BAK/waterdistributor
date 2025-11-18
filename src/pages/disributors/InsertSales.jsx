@@ -1,110 +1,146 @@
 import React, { useState } from "react";
-import "./Insertsales.css";
+
+const PRICES = {
+  "2L": 300,
+  "1L": 200,
+  "1/2L": 100,
+  "1/4L": 60,
+};
 
 function InsertSales() {
-  const [type, setType] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [unitPrice, setUnitPrice] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [quantities, setQuantities] = useState({});
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedTypes((prev) => [...prev, value]);
+      setQuantities((prev) => ({ ...prev, [value]: "" }));
+    } else {
+      setSelectedTypes((prev) => prev.filter((type) => type !== value));
+      setQuantities((prev) => {
+        const updatedQuantities = { ...prev };
+        delete updatedQuantities[value];
+        return updatedQuantities;
+      });
+    }
+  };
+
+  const handleQuantityChange = (type, value) => {
+    setQuantities((prev) => ({ ...prev, [type]: value }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!type || !quantity || !unitPrice) {
-      setMessage("Please fill all fields before submitting. (እባክዎን ከመላክዎ በፊት ሁሉንም መስኮች ይሙሉ።)");
+    if (selectedTypes.length === 0) {
+      setMessage("Please select at least one item. (እባክዎን ቢያንስ አንድ ነገር ይምረጡ።)");
       setMessageType("error");
       return;
     }
 
-    // Calculate total
-    const total = parseInt(quantity) * parseFloat(unitPrice);
+    for (const type of selectedTypes) {
+      if (!quantities[type] || parseInt(quantities[type]) <= 0) {
+        setMessage(`Please enter a valid quantity for ${type}.`);
+        setMessageType("error");
+        return;
+      }
+    }
 
-    setMessage(`Sales record added successfully! (የሽያጭ መዝገብ በተሳካ ሁኔታ ታክሏል!) Total (ጠቅላላ): ${total.toLocaleString()} ብር`);
+    let total = 0;
+    for (const type of selectedTypes) {
+      total += parseInt(quantities[type]) * PRICES[type];
+    }
+
+    setMessage(
+      `Sales record added successfully! (የሽያጭ መዝገብ በተሳካ ሁኔታ ታክሏል!) Total (ጠቅላላ): ${total.toLocaleString()} ብር`
+    );
     setMessageType("success");
 
-    // Clear form after submit
     setTimeout(() => {
-      setType("");
-      setQuantity("");
-      setUnitPrice("");
+      setSelectedTypes([]);
+      setQuantities({});
       setMessage("");
       setMessageType("");
     }, 3000);
   };
 
   return (
-    <div className="insert-sales-page-container">
-      <div className="insert-sales-card">
-        <div className="form-header">
-          <h2 className="form-title">Insert Sales Record (የሽያጭ መዝገብ ያስገቡ)</h2>
-          <p className="form-subtitle">Record new sales transactions (አዲስ የሽያጭ ዝውውሮችን ይመዝግቡ)</p>
+    <div className="min-h-screen bg-gradient-to-r from-blue-100 to-blue-300 flex items-center justify-center p-8">
+      <div className="bg-white rounded-3xl shadow-2xl p-10 w-full max-w-4xl">
+        <div className="mb-10 text-center">
+          <h2 className="text-4xl font-extrabold text-blue-700">Insert Sales Record</h2>
+          <p className="text-lg text-gray-600 mt-2">Record new sales transactions with ease</p>
         </div>
 
-        <form className="insert-sales-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="type">Bottle Type (የጠርሙስ አይነት)</label>
-            <select
-              id="type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              className="form-select"
-            >
-              <option value="">-- Select Type (አይነት ይምረጡ) --</option>
-              <option value="2L">2L</option>
-              <option value="1L">1L</option>
-              <option value="1/2L">1/2L</option>
-              <option value="1/4L">1/4L</option>
-            </select>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div>
+            <label className="block text-lg font-medium text-gray-700 mb-4">
+              Select Bottle Types
+            </label>
+            <div className="grid grid-cols-2 gap-4">
+              {Object.keys(PRICES).map((type) => (
+                <div key={type} className="flex items-center space-x-4">
+                  <div className="flex items-center">
+                    <input
+                      id={`type-${type}`}
+                      type="checkbox"
+                      value={type}
+                      checked={selectedTypes.includes(type)}
+                      onChange={handleCheckboxChange}
+                      className="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label htmlFor={`type-${type}`} className="ml-2 text-lg text-gray-700">
+                      {type} - {PRICES[type]} ብር
+                    </label>
+                  </div>
+                  {selectedTypes.includes(type) && (
+                    <input
+                      type="number"
+                      placeholder="Quantity"
+                      value={quantities[type] || ""}
+                      onChange={(e) => handleQuantityChange(type, e.target.value)}
+                      className="w-28 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-lg"
+                      min="1"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="quantity">Quantity (ብዛት)</label>
-            <input
-              id="quantity"
-              type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              placeholder="Enter quantity (ብዛት ያስገቡ)"
-              className="form-input"
-              min="1"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="unitPrice">Unit Price (Birr) (የአንዱ ዋጋ በብር)</label>
-            <input
-              id="unitPrice"
-              type="number"
-              value={unitPrice}
-              onChange={(e) => setUnitPrice(e.target.value)}
-              placeholder="Enter price per unit (የአንዱን ዋጋ ያስገቡ)"
-              className="form-input"
-              min="0"
-              step="0.01"
-            />
-          </div>
-
-          {quantity && unitPrice && (
-            <div className="total-preview">
-              <span className="total-label">Total Amount (ጠቅላላ መጠን):</span>
-              <span className="total-value">
-                {(parseInt(quantity) * parseFloat(unitPrice) || 0).toLocaleString()} ብር
+          {selectedTypes.length > 0 && (
+            <div className="bg-gray-100 p-4 rounded-lg text-gray-700">
+              <span className="font-medium text-lg">Total Amount:</span>{" "}
+              <span className="font-bold text-xl">
+                {selectedTypes.reduce(
+                  (acc, type) =>
+                    acc + (parseInt(quantities[type] || 0) * PRICES[type] || 0),
+                  0
+                ).toLocaleString()}{" "}
+                ብር
               </span>
             </div>
           )}
 
-          <button type="submit" className="submit-btn">
-            Submit Sales Record (የሽያጭ መዝገብ ያስገቡ)
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            Submit Sales Record
           </button>
         </form>
 
         {message && (
-          <div className={`message ${messageType}`}>
-            <span className="message-icon">
-              {messageType === "success" ? "✅" : "⚠️"}
-            </span>
-            <p>{message}</p>
+          <div
+            className={`mt-6 p-4 rounded-lg text-lg font-medium ${
+              messageType === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+            }`}
+          >
+            <span className="mr-3">{messageType === "success" ? "✅" : "⚠️"}</span>
+            {message}
           </div>
         )}
       </div>
