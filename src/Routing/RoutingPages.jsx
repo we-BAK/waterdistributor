@@ -1,8 +1,7 @@
 import React from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
 import Layout from '../pages/PageLayout/Layout';
 import LoginPage from '../pages/Login/loginpage';
-import LandingPage from '../pages/LandingPage/LandingPage';
 
 //Stockkeeper component
 import StockKeeperDashboard from '../pages/Stockkeeper/stockkeep';
@@ -26,44 +25,30 @@ const RoutingPages = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<LandingPage />} />
+                <Route path="/" element={<LoginPage />} />
                 <Route path="/login" element={<LoginPage />} />
 
-                 
-                    <Route path="/Owner" element={<Layout />}>
-                        <Route index element={<OwnerDashboard />} />
-                        {/* <Route path="" element={} />
-                        <Route path="" element={} />
-                        <Route path="" element={} />
-                        <Route path="" element={} /> */}
-                        {/* <Route path="profile" element={<UserProfile />} /> */}
-                    </Route>
-                
+                <Route path="/Owner" element={<Layout />}>
+                    <Route index element={<OwnerDashboard />} />
+                    {/* Future nested owner routes can go here */}
+                </Route>
 
-                
-                    <Route path="/Sales" element={<Layout />}>
-                        <Route index element={<Salesperson />} />
-                        {/* <Route path="" element={} />
-                        <Route path="" element={} />
-                        <Route path="" element={} />
-                        <Route path="" element={} /> */}
-                        {/* <Route path="profile" element={<UserProfile />} /> */}
-                    </Route> 
-                
+                <Route path="/Sales" element={<Layout />}>
+                    <Route index element={<Salesperson />} />
+                    {/* Future salesperson routes */}
+                </Route> 
 
+                <Route path="/StockKeeper" element={<Layout />}>
+                    <Route index element={<StockKeeperDashboard />} />
+                    <Route path="distributionForm" element={<DistributionForm />} />
+                    <Route path="distributionHistory" element={<DistributionHistory />} />
+                    <Route path="currentStock" element={<CurrentStockTable />} />
+                    <Route path="recordReceived" element={<RecordReceived />} />
+                    <Route path="stockReceivedHistory" element={<StockReceivedHistory />} />
+                    {/* Future stock keeper routes */}
+                </Route>
 
-                
-                    <Route path="/StockKeeper" element={<Layout />}>
-                        <Route index element={<StockKeeperDashboard />} />
-                        <Route path="distributionForm" element={<DistributionForm />} />
-                        <Route path="distributionHistory" element={<DistributionHistory />} />
-                        <Route path="currentStock" element={<CurrentStockTable />} />
-                        <Route path="recordReceived" element={<RecordReceived />} />
-                        <Route path="stockReceivedHistory" element={<StockReceivedHistory />} />
-                        {/* <Route path="profile" element={<UserProfile />} /> */}
-                    </Route>
-
-            
+                <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
         </Router>
     );

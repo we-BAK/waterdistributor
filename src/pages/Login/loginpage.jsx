@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Droplets, ArrowLeft } from 'lucide-react';
+import { Droplets } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../component/Button';
 import Input from '../../component/Input';
@@ -55,14 +55,6 @@ export default function LoginPage() {
     >
       <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl opacity-10 animate-pulse"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-300 rounded-full blur-3xl opacity-10 animate-pulse delay-1000"></div>
-
-      <button
-        onClick={() => navigate("/")}
-        className="absolute top-8 left-8 flex items-center space-x-2 text-white hover:bg-white/20 px-4 py-2 rounded-lg transition-all duration-300 backdrop-blur-sm"
-      >
-        <ArrowLeft className="w-5 h-5" />
-        <span>Back</span>
-      </button>
 
       <div 
         className="bg-cover bg-center bg-no-repeat rounded-3xl shadow-2xl p-8 sm:p-12 border border-white/20 relative"

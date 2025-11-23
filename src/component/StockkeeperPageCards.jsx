@@ -52,33 +52,24 @@ const StockkeeperPageCards = () => {
   };
 
   return (
-    <div className="p-6 overflow-auto h-full">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">Stock Keeper Dashboard</h1>
-      {/* Tailwind grid for responsiveness */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {cards.map((card, index) => (
-          <div
-            key={index}
-            className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg 
-                       hover:shadow-xl transition-all duration-300 cursor-pointer 
-                       transform hover:-translate-y-1" // Hover effect for interactivity
-            onClick={() => handleCardClick(card.path)}
-          >
-            <div className="flex items-start gap-4 mb-4">
-              {/* Icon container styling */}
-              <div className="p-3 bg-gray-50 rounded-lg shrink-0 border border-gray-100">
-                {card.icon}
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 leading-snug self-center">
-                {card.title}
-              </h3>
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {cards.map((card, index) => (
+        <div
+          key={index}
+          className="transform cursor-pointer rounded-xl border border-gray-200 bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          onClick={() => handleCardClick(card.path)}
+        >
+          <div className="mb-4 flex items-start gap-4">
+            <div className="rounded-lg border border-gray-100 bg-gray-50 p-3">
+              {card.icon}
             </div>
-            <p className="text-sm text-gray-600 mt-2">
-              {card.description}
-            </p>
+            <h3 className="text-lg font-semibold leading-snug text-gray-900">
+              {card.title}
+            </h3>
           </div>
-        ))}
-      </div>
+          <p className="mt-2 text-sm text-gray-600">{card.description}</p>
+        </div>
+      ))}
     </div>
   );
 };
